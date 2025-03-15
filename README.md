@@ -11,6 +11,8 @@ Microsoft and add them into the display page, i.e. work schedule on miscrosoft
 teams will display on the Synchronize calender view.
 
 ## How to Run Calendar
+
+Navigate to main calendar directory:
 ```
 npm install
 npm start

@@ -2,13 +2,20 @@
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class CreateAccount {
-	
+public class CreateAccount implements ActionListener{
+
+
+	HashMap<String, String> logininfo = new HashMap<String,String>();
+
 	JFrame frame = new JFrame();
 	JLabel lblNewLabel_2 = new JLabel("Synchronize");
 	JTextField textField = new JTextField();
@@ -17,20 +24,13 @@ public class CreateAccount {
 	JTextField textField_1 = new JTextField();
 	JLabel lblPassword = new JLabel("Password:");
 	JTextField textField_2 = new JTextField();
-	JTextField textField_3 = new JTextField();
-	JButton btnNewButton = new JButton("Sign In");
-	JButton btnNewButton_1 = new JButton("Sign Up");
+	JPasswordField textField_3 = new JPasswordField();
+	JButton signInButton = new JButton("Sign In");
+	JButton createButton = new JButton("Sign Up");
 	
 	
 	
-	CreateAccount() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+	CreateAccount(HashMap<String,String> logininfoOriginal) {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(708, 633);
@@ -79,30 +79,27 @@ public class CreateAccount {
 		textField_3.setBounds(294, 357, 86, 20);
 		frame.getContentPane().add(textField_3);
 		
-		btnNewButton.addActionListener((ActionEvent e) -> {
-                    if(e.getSource()==btnNewButton) {
-                        frame.dispose();
-                        MainLog mainLog = new MainLog();
-                    }
-                });
-		btnNewButton.setBounds(294, 478, 89, 23);
-		frame.getContentPane().add(btnNewButton);
+		signInButton.setBounds(294, 478, 89, 23);
+		frame.getContentPane().add(signInButton);
 		
-		/*implement username and password database and update after
-		//Temp using "admin" and "password" to show implementation
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-			}
-		});
-		
-		
-	*/	
-		//Temp using "admin" and "password" to show implementation
-		btnNewButton_1.addActionListener((ActionEvent e) -> {
+		createButton.addActionListener((ActionEvent e) -> {
                 });
 		
-		btnNewButton_1.setBounds(294, 407, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		createButton.setBounds(294, 407, 89, 23);
+		frame.getContentPane().add(createButton);
 	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+		
+		
+		if(e.getSource()==signInButton) {
+			frame.dispose();
+			
+		//	MainLog mainLog = new MainLog(logininfo.getLoginInfo());
+		}            
+
+    }
+	
 }

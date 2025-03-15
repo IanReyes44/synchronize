@@ -1,33 +1,44 @@
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.util.HashMap;
+import javax.swing.JPasswordField;
+//import 
 
-
-
-public class MainLog {
+public class MainLog implements ActionListener{
 	
+	HashMap<String, String> logininfo = new HashMap<String,String>();
+
 	JFrame frame = new JFrame();
 	JLabel lblNewLabel = new JLabel("Username/Email:");
 	JTextField userField = new JTextField();
 	JLabel lblNewLabel_1 = new JLabel("Password: ");
-	JTextField passField = new JTextField();
+	JPasswordField passField = new JPasswordField();
 	JLabel lblNewLabel_2 = new JLabel("Synchronize");
-	JButton btnNewButton = new JButton("Login");
+	JButton loginButton = new JButton("Login");
 	JLabel lblNewLabel_3 = new JLabel("New? Sign up.");
-	JButton btnNewButton_1 = new JButton("Sign up");
-	
-	MainLog() {
+	JButton signUpButton = new JButton("Sign up");
+	JLabel messageLabel = new JLabel();
+
+
+	MainLog(HashMap<String,String> logininfoOriginal) {
 		
+		logininfo = logininfoOriginal;
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(960, 720);
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setTitle("Synchronize Login");
-		
+		frame.add(messageLabel);
+		messageLabel.setBounds(380, 220, 256, 20);
+		messageLabel.setFont(new Font(null,Font.ITALIC,12));
 		frame.add(lblNewLabel);
 		lblNewLabel.setBounds(412, 246, 118, 14);
 	
@@ -48,7 +59,7 @@ public class MainLog {
 		lblNewLabel_2.setBounds(430, 180, 100, 27);
 		
 		
-		frame.add(btnNewButton);
+		frame.add(loginButton);
 		//Temp using "admin" and "password" to show implementation
 		
 		/*implement username and password database and update after
@@ -61,38 +72,46 @@ public class MainLog {
 		
 		
 	*/	
-		btnNewButton.addActionListener((ActionEvent e) -> {
-                    if(e.getSource()==btnNewButton_1) {
-                        String username = userField.getText();
-                        String password = passField.getText();
-                        
-                        if ("admin".equals(username) && "password".equals(password))
-                        {
-                            
-                        } else {
-                            
-                        }
-                        
-                        
-                    }
-                });
+		loginButton.addActionListener(this);
+
 		
-		btnNewButton.setBounds(435, 380, 90, 23);
+		loginButton.setBounds(435, 380, 90, 23);
 		
 		
 		frame.add(lblNewLabel_3);
 		lblNewLabel_3.setBounds(412, 414, 80, 14);
 		
 		
-		frame.add(btnNewButton_1);
-		btnNewButton_1.addActionListener((ActionEvent e) -> {
-                    if(e.getSource()==btnNewButton_1) {
-                        frame.dispose();
-                        CreateAccount createAccount = new CreateAccount();
-                    }
-                });
-		btnNewButton_1.setBounds(435, 443, 90, 23);
+		frame.add(signUpButton);
+		signUpButton.addActionListener(this);
+
+		signUpButton.setBounds(435, 443, 90, 23);
 		
 
 	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == loginButton){
+			String userID = userField.getText();
+			String password = String.valueOf(passField.getPassword());
+
+			if(logininfo.containsKey(userID)){
+				if(logininfo.get(userID).equals(password)){
+
+				}
+				//execute calander application
+			} 
+			else{
+				messageLabel.setForeground(Color.red);
+				messageLabel.setText("Incorrect username and/or password.");
+				userField.setText("");
+				passField.setText("");
+			}	
+		}
+		if(e.getSource()== signUpButton){
+			frame.dispose();
+			CreateAccount createAccount = new CreateAccount(logininfo);
+		}
+    }
 }

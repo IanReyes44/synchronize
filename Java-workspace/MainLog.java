@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.DigestOutputStream;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -98,7 +99,7 @@ public class MainLog implements ActionListener{
 
 			if(logininfo.containsKey(userID)){
 				if(logininfo.get(userID).equals(password)){
-
+					frame.dispose();
 				}
 				//execute calander application
 			} 

@@ -444,9 +444,14 @@ const CustomTuiCalendar = forwardRef(
     function createSchedule(schedule) {
       console.log("createSchedule");
 
+      // Add the new schedule to the calendar instance
       calendarInstRef.current.createSchedules([schedule]);
-      const cloneFilterSchedules = [...filterSchedules];
-      setFilterSchedules((prevState) => [...cloneFilterSchedules, schedule]);
+
+      // Update the filterSchedules state with the new schedule
+      setFilterSchedules((prevState) => [...prevState, schedule]);
+
+      // Re-render the calendar to reflect the new schedule
+      calendarInstRef.current.render();
     }
 
     function updateSchedule(schedule, changes) {

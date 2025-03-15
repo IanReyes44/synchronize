@@ -156,11 +156,6 @@ const CustomTuiCalendar = forwardRef(
             return "+" + hiddenSchedules;
           },
           dayGridTitle: function (viewName) {
-            // use another functions instead of 'dayGridTitle'
-            // milestoneTitle: function() {...}
-            // taskTitle: function() {...}
-            // alldayTitle: function() {...}
-
             var title = "";
             switch (viewName) {
               case "milestone":
@@ -181,76 +176,22 @@ const CustomTuiCalendar = forwardRef(
 
             return title;
           },
-          // schedule: function(schedule) {
-          //   // use another functions instead of 'schedule'
-          //   // milestone: function() {...}
-          //   // task: function() {...}
-          //   // allday: function() {...}
-
-          //   var tpl;
-
-          //   switch (category) {
-          //     case "milestone":
-          //       tpl =
-          //         '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' +
-          //         schedule.bgColor +
-          //         '">' +
-          //         schedule.title +
-          //         "</span>";
-          //       break;
-          //     case "task":
-          //       tpl = "#" + schedule.title;
-          //       break;
-          //     case "allday":
-          //       tpl = _getTimeTemplate(schedule, true);
-          //       break;
-          //     default:
-          //       break;
-          //   }
-
-          //   return tpl;
-          // },
           collapseBtnTitle: function () {
             return '<span class="tui-full-calendar-icon tui-full-calendar-ic-arrow-solid-top"></span>';
           },
-          // timezoneDisplayLabel: function(timezoneOffset, displayLabel) {
-          //   var gmt, hour, minutes;
-
-          //   if (!displayLabel) {
-          //     gmt = timezoneOffset < 0 ? "-" : "+";
-          //     hour = Math.abs(parseInt(timezoneOffset / 60, 10));
-          //     minutes = Math.abs(timezoneOffset % 60);
-          //     displayLabel = gmt + getPadStart(hour) + ":" + getPadStart(minutes);
-          //   }
-
-          //   return displayLabel;
-          // },
-          timegridDisplayPrimayTime: function (time) {
-            // will be deprecated. use 'timegridDisplayPrimaryTime'
-            var meridiem = "am";
-            var hour = time.hour;
-
-            if (time.hour > 12) {
-              meridiem = "pm";
-              hour = time.hour - 12;
-            }
-
-            return hour + " " + meridiem;
-          },
           timegridDisplayPrimaryTime: function (time) {
-            var meridiem = "am";
+            var meridiem = "AM";
             var hour = time.hour;
 
-            if (time.hour > 12) {
-              meridiem = "pm";
-              hour = time.hour - 12;
+            if (time.hour >= 12) {
+              meridiem = "PM";
+              if (time.hour > 12) {
+                hour = time.hour - 12;
+              }
             }
 
             return hour + " " + meridiem;
           },
-          // timegridDisplayTime: function(time) {
-          //   return getPadStart(time.hour) + ":" + getPadStart(time.hour);
-          // },
           timegridCurrentTime: function (timezone) {
             var templates = [];
 
@@ -263,7 +204,7 @@ const CustomTuiCalendar = forwardRef(
               );
             }
 
-            templates.push(moment(timezone.hourmarker).format("HH:mm a"));
+            templates.push(moment(timezone.hourmarker).format("hh:mm A"));
 
             return templates.join("");
           },
@@ -296,17 +237,17 @@ const CustomTuiCalendar = forwardRef(
           },
           popupDetailDate: function (isAllDay, start, end) {
             var isSameDate = moment(start).isSame(end);
-            var endFormat = (isSameDate ? "" : "YYYY/MM/DD ") + "HH:mm";
+            var endFormat = (isSameDate ? "" : "MM/DD/YYYY ") + "hh:mm A";
 
             if (isAllDay) {
               return (
-                moment(start).format("YYYY/MM/DD") +
-                (isSameDate ? "" : " - " + moment(end).format("YYYY/MM/DD"))
+                moment(start).format("MM/DD/YYYY") +
+                (isSameDate ? "" : " - " + moment(end).format("MM/DD/YYYY"))
               );
             }
 
             return (
-              moment(start.toDate()).format("YYYY/MM/DD HH:mm") +
+              moment(start.toDate()).format("MM/DD/YYYY hh:mm A") +
               " - " +
               moment(end.toDate()).format(endFormat)
             );
@@ -314,9 +255,6 @@ const CustomTuiCalendar = forwardRef(
           popupDetailLocation: function (schedule) {
             return "Location : " + schedule.location;
           },
-          // popupDetailUser: function (schedule) {
-          // 	return 'Staff : ' + (schedule.attendees || []).join(', ')
-          // },
           popupDetailState: function (schedule) {
             return "State : " + schedule.state || "Busy";
           },
@@ -333,12 +271,6 @@ const CustomTuiCalendar = forwardRef(
             return "Delete";
           }
         },
-        // template: {
-        //   time: function(schedule) {
-        //     // console.log(schedule);
-        //     return _getTimeTemplate(schedule, false);
-        //   }
-        // },
         calendars,
         ...rest
       });
@@ -358,25 +290,9 @@ const CustomTuiCalendar = forwardRef(
         onBeforeDeleteSchedule(event);
       });
       calendarInstRef.current.on("clickSchedule", function (event) {
-        // var schedule = event.schedule;
-        // console.log("clickSchedule", event);
-        // if (lastClickSchedule) {
-        //   calendarInstRef.current.updateSchedule(
-        //     lastClickSchedule.id,
-        //     lastClickSchedule.calendarId,
-        //     {
-        //       isFocused: false
-        //     }
-        //   );
-        // }
-        // calendarInstRef.current.updateSchedule(schedule.id, schedule.calendarId, {
-        //   isFocused: true
-        // });
-        // lastClickSchedule = schedule;
         // open detail view
       });
       calendarInstRef.current.on("clickDayname", function (event) {
-        // console.log("clickDayname", event);
         if (calendarInstRef.current.getViewName() === "week") {
           calendarInstRef.current.setDate(new Date(event.date));
           calendarInstRef.current.changeView("day", true);
@@ -384,23 +300,17 @@ const CustomTuiCalendar = forwardRef(
       });
 
       calendarInstRef.current.on("clickMore", function (event) {
-        // console.log("clickMore", event.date, event.target);
+        // handle click more
       });
 
       calendarInstRef.current.on("clickTimezonesCollapseBtn", function (
         timezonesCollapsed
       ) {
-        // console.log(timezonesCollapsed);
+        // handle timezones collapse
       });
 
       calendarInstRef.current.on("afterRenderSchedule", function (event) {
-        // var schedule = event.schedule;
-        // var element = calendarInstRef.current.getElement(
-        //   schedule.id,
-        //   schedule.calendarId
-        // );
-        // use the element
-        // console.log(element);
+        // handle after render schedule
       });
 
       return () => {
@@ -409,7 +319,7 @@ const CustomTuiCalendar = forwardRef(
     }, [tuiRef, schedules]);
 
     useLayoutEffect(() => {
-      // console.log("before render");
+      // before render
     });
 
     function currentCalendarDate(format) {
@@ -428,23 +338,23 @@ const CustomTuiCalendar = forwardRef(
 
       var html = [];
       if (viewName === "day") {
-        html.push(currentCalendarDate("YYYY.MM.DD"));
+        html.push(currentCalendarDate("MM/DD/YYYY"));
       } else if (
         viewName === "month" &&
         (!options.month.visibleWeeksCount ||
           options.month.visibleWeeksCount > 4)
       ) {
-        html.push(currentCalendarDate("YYYY.MM"));
+        html.push(currentCalendarDate("MM/YYYY"));
       } else {
         html.push(
           moment(calendarInstRef.current.getDateRangeStart().getTime()).format(
-            "YYYY.MM.DD"
+            "MM/DD/YYYY"
           )
         );
         html.push(" ~ ");
         html.push(
           moment(calendarInstRef.current.getDateRangeEnd().getTime()).format(
-            " MM.DD"
+            "MM/DD"
           )
         );
       }
@@ -457,7 +367,7 @@ const CustomTuiCalendar = forwardRef(
       if (!isAllDay) {
         html.push(
           "<strong>" +
-            moment(schedule.start.toDate()).format("HH:mm") +
+            moment(schedule.start.toDate()).format("hh:mm A") +
             "</strong> "
         );
       }
@@ -492,12 +402,9 @@ const CustomTuiCalendar = forwardRef(
     const handleClick = (e) => {
       if (wrapperRef.current?.contains(e.target)) {
         // inside click
-        // console.log("inside");
         return;
       }
       // outside click
-      // ... do whatever on click outside here ...
-      // console.log("outside");
       setOpen(false);
     };
 
@@ -533,10 +440,6 @@ const CustomTuiCalendar = forwardRef(
       calendarInstRef.current.createSchedules(cloneSchedules, true);
       calendarInstRef.current.render();
     };
-
-    // const capitalizeFirstLetter = (value = "") => {
-    //   return [...value[0].toUpperCase(), ...value.slice(1)].join("");
-    // };
 
     function createSchedule(schedule) {
       console.log("createSchedule");
@@ -757,74 +660,74 @@ const CustomTuiCalendar = forwardRef(
                         calendarInstRef.current.changeView("month", true);
                         setType("3 weeks");
                         setOpen(false);
-                        }}
-                        className="dropdown-menu-title"
-                        role="menuitem"
-                        data-action="toggle-weeks3"
-                      >
-                        <i className="calendar-icon ic_view_week" />3 weeks
-                      </a>
-                      </li>
-                    </ul>
-                    </span>
+                      }}
+                      className="dropdown-menu-title"
+                      role="menuitem"
+                      data-action="toggle-weeks3"
+                    >
+                      <i className="calendar-icon ic_view_week" />3 weeks
+                    </a>
+                  </li>
+                </ul>
+              </span>
 
-                    <span id="menu-navi">
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm move-today"
-                      style={{ marginRight: "4px" }}
-                      data-action="move-today"
-                      onClick={() => {
-                      // console.log("today");
-                      calendarInstRef.current.today();
-                      setRenderRangeText();
-                      }}
-                    >
-                      Today
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm move-day"
-                      style={{ marginRight: "4px" }}
-                      data-action="move-prev"
-                      onClick={() => {
-                      // console.log("pre");
-                      calendarInstRef.current.prev();
-                      setRenderRangeText();
-                      }}
-                    >
-                      <i
-                      className="calendar-icon ic-arrow-line-left"
-                      data-action="move-prev"
-                      />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm move-day"
-                      style={{ marginRight: "4px" }}
-                      data-action="move-next"
-                      onClick={() => {
-                      // console.log("next");
-                      calendarInstRef.current.next();
-                      setRenderRangeText();
-                      }}
-                    >
-                      <i
-                      className="calendar-icon ic-arrow-line-right"
-                      data-action="move-next"
-                      />
-                    </button>
-                    </span>
-                    <span id="renderRange" className="render-range">
-                    {renderRange}
-                    </span>
-                  </div>
-                  )}
-                  <div ref={tuiRef} style={{ height }} />
-                </div>
-                </div>
-              );
-              }
-            );
+              <span id="menu-navi">
+                <button
+                  type="button"
+                  className="btn btn-default btn-sm move-today"
+                  style={{ marginRight: "4px" }}
+                  data-action="move-today"
+                  onClick={() => {
+                    // console.log("today");
+                    calendarInstRef.current.today();
+                    setRenderRangeText();
+                  }}
+                >
+                  Today
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-default btn-sm move-day"
+                  style={{ marginRight: "4px" }}
+                  data-action="move-prev"
+                  onClick={() => {
+                    // console.log("pre");
+                    calendarInstRef.current.prev();
+                    setRenderRangeText();
+                  }}
+                >
+                  <i
+                    className="calendar-icon ic-arrow-line-left"
+                    data-action="move-prev"
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-default btn-sm move-day"
+                  style={{ marginRight: "4px" }}
+                  data-action="move-next"
+                  onClick={() => {
+                    // console.log("next");
+                    calendarInstRef.current.next();
+                    setRenderRangeText();
+                  }}
+                >
+                  <i
+                    className="calendar-icon ic-arrow-line-right"
+                    data-action="move-next"
+                  />
+                </button>
+              </span>
+              <span id="renderRange" className="render-range">
+                {renderRange}
+              </span>
+            </div>
+          )}
+          <div ref={tuiRef} style={{ height }} />
+        </div>
+      </div>
+    );
+  }
+);
 
-            export default CustomTuiCalendar;
+export default CustomTuiCalendar;

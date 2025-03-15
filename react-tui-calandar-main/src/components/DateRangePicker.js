@@ -37,24 +37,38 @@ const TuiDateRangePicker = forwardRef((props, ref) => {
             date: start || new Date(),
             input: startPickerInputRef.current || "#startpicker-input",
             container:
-              startPickerContainerRef.current || "#startpicker-container"
+              startPickerContainerRef.current || "#startpicker-container",
+            format: "MM/DD/YYYY hh:mm A", // Ensure the format includes time in 12-hour format with AM/PM
+            timepicker: {
+              layoutType: 'tab', // or 'dropdown'
+              inputType: 'spinbox', // or 'selectbox'
+              initialHour: 12,
+              initialMinute: 0,
+              meridiemPosition: 'right' // Position of AM/PM
+            }
           },
           endpicker: {
             date: end || new Date(),
             input: endPickerInputRef.current || "#endpicker-input",
-            container: endPickerContainerRef.current || "#endpicker-container"
+            container: endPickerContainerRef.current || "#endpicker-container",
+            format: "MM/DD/YYYY hh:mm A", // Ensure the format includes time in 12-hour format with AM/PM
+            timepicker: {
+              layoutType: 'tab', // or 'dropdown'
+              inputType: 'spinbox', // or 'selectbox'
+              initialHour: 12,
+              initialMinute: 0,
+              meridiemPosition: 'right' // Position of AM/PM
+            }
           }
         })
       );
     } else {
       rangePicker.on("change:start", () => {
-        // console.log(`Start date: ${rangePicker.getStartDate()}`)
         return typeof onChange === "function"
           ? onChange([rangePicker.getStartDate(), rangePicker.getEndDate()])
           : undefined;
       });
       rangePicker.on("change:end", () => {
-        // console.log(`End date: ${rangePicker.getStartDate()}`)
         return typeof onChange === "function"
           ? onChange([rangePicker.getStartDate(), rangePicker.getEndDate()])
           : undefined;

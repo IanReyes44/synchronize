@@ -9,3 +9,9 @@ also aims to seemlessly integrate itself into most users live by allowing the us
 to sync calender data from existing third party platforms such as Google and 
 Microsoft and add them into the display page, i.e. work schedule on miscrosoft 
 teams will display on the Synchronize calender view.
+
+## How to Run Calendar
+```
+npm install
+npm start
+```

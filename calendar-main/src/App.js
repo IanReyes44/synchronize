@@ -136,6 +136,76 @@ const schedules = [
     isVisible: true,
     start: new Date(2025, 4, 22, 9, 0), // May 22, 2025, 9:00 AM
     end: new Date(2025, 4, 23, 17, 0)  // May 23, 2025, 5:00 PM
+  },
+  {
+    id: "14",
+    title: "Breakfast Meeting",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 3, 25, 8, 30), // April 25, 2025, 8:30 AM
+    end: new Date(2025, 3, 25, 9, 30)    // April 25, 2025, 9:30 AM
+  },
+  {
+    id: "15",
+    title: "Design Review",
+    calendarId: "2",
+    category: "time",
+    attendees: ["Charlie", "Ian"],
+    isVisible: true,
+    start: new Date(2025, 3, 25, 12, 0), // April 25, 2025, 12:00 PM
+    end: new Date(2025, 3, 25, 13, 0)    // April 25, 2025, 1:00 PM
+  },
+  {
+    id: "16",
+    title: "Follow-up Doctor's Appointment",
+    calendarId: "4",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 4, 7, 15, 0), // April 27, 2025, 3:00 PM
+    end: new Date(2025, 4, 7, 15, 30)   // April 27, 2025, 3:30 PM
+  },
+  {
+    id: "17",
+    title: "Brainstorm Session",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 1, 10, 0), // May 1, 2025, 10:00 AM
+    end: new Date(2025, 4, 1, 11, 30)   // May 1, 2025, 11:30 AM
+  },
+  {
+    id: "18",
+    title: "Evening Walk",
+    calendarId: "2",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 4, 1, 19, 0), // May 1, 2025, 7:00 PM
+    end: new Date(2025, 4, 1, 19, 45)   // May 1, 2025, 7:45 PM
+  },
+  {
+    id: "19",
+    title: "Friends' Reunion",
+    calendarId: "5",
+    category: "time",
+    attendees: ["Charlie", "Ian", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 5, 13, 0), // May 5, 2025, 1:00 PM
+    end: new Date(2025, 4, 5, 16, 0)    // May 5, 2025, 4:00 PM
+  },
+  {
+    id: "20",
+    title: "Prep for Hackathon",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 11, 15, 0), // May 11, 2025, 3:00 PM
+    end: new Date(2025, 4, 11, 18, 0)    // May 11, 2025, 6:00 PM
   }
 ];
 
@@ -387,6 +457,7 @@ export default function App() {
                 borderRadius: "5px",
                 cursor: "pointer",
                 fontWeight: "bold",
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
               }}
               onMouseEnter={(e) => (e.target.style.backgroundColor = "#4B4B8A")} // Darker color on hover
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#2C2C54")} // Reset color on mouse leave
@@ -403,6 +474,7 @@ export default function App() {
                 borderRadius: "5px",
                 cursor: "pointer",
                 fontWeight: "bold",
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
               }}
               onMouseEnter={(e) => (e.target.style.backgroundColor = "#a9a9a9")} // Darker color on hover
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#707070")} // Reset color on mouse leave

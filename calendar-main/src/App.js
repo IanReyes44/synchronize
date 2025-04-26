@@ -236,6 +236,7 @@ const calendars = [
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [currentUser, setCurrentUser] = useState(""); // Add state for the current user
   const [modal, setModal] = useState(false);
   const [event, setEvent] = useState(null);
   const [showSettings, setShowSettings] = useState(false); // State to toggle settings page
@@ -247,12 +248,14 @@ export default function App() {
     setEvent(null);
   };
 
-  const handleLogin = () => {
-    setIsLoggedIn(true); // Set login status to true
+  const handleLogin = (username) => {
+    setIsLoggedIn(true);
+    setCurrentUser(username); // Set the logged-in user's name
   };
-
+  
   const handleLogout = () => {
-    setIsLoggedIn(false); // Reset login status
+    setIsLoggedIn(false);
+    setCurrentUser(""); // Clear the current user
   };
 
   const handleSaveSettings = (newSettings) => {
@@ -412,6 +415,7 @@ export default function App() {
             <SettingsPage
               onSaveSettings={handleSaveSettings}
               onCancel={handleCancelSettings}
+              currentUser={currentUser}
             />
           ) : (
             <>

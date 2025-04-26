@@ -6,7 +6,7 @@ const LoginPage = ({ onLogin, attendees }) => {
   const handleLogin = () => {
     const validAttendees = attendees.map((attendee) => attendee.name);
     if (username.trim() && validAttendees.includes(username.trim())) {
-      onLogin(); // Notify parent to switch page
+      onLogin(username.trim()); // Pass the username to App.js
     } else {
       alert("Please enter a valid username.");
     }

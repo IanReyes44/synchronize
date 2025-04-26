@@ -356,15 +356,17 @@ export default function App() {
               onClick={handleLogout}
               style={{
                 padding: "10px 20px",
-                backgroundColor: "#f44336",
+                backgroundColor: "#707070",
                 color: "white",
                 border: "none",
                 borderRadius: "5px",
                 cursor: "pointer",
-                fontWeight: "bold"
+                fontWeight: "bold",
               }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#a9a9a9")} // Darker color on hover
+              onMouseLeave={(e) => (e.target.style.backgroundColor = "#707070")} // Reset color on mouse leave
             >
-              Logout
+              LOGOUT
             </button>
           </div>
 

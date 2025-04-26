@@ -5,6 +5,8 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@supabase/auth-helpers-react": "^0.5.0",
+    "@supabase/supabase-js": "^2.49.4",
     "bootstrap": "4.5.2",
     "moment": "2.27.0",
     "react": "16.12.0",

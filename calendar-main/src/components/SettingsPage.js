@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 //code commented out as it breaks the app
 //import { useSession } from "@supabase/auth-helpers-react"; // Importing useSession from Supabase Auth Helpers
@@ -27,6 +28,9 @@ import React, { useState } from "react";
 //   // window.location.href = "/login"; // Redirect to login page
 // }
 //line 120 is where the sign in button is located in the code below for google
+
+
+
 
 const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
   const [theme, setTheme] = useState("light");
@@ -125,8 +129,6 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
           </label>
           <div style={{ marginTop: "10px" }}>
             <button 
-              // Uncomment this line to enable Google Sign-In once debugged
-              // onClick={() => googleSignIn()}
               style={{
                 width: "100%",
                 padding: "12px",
@@ -143,6 +145,7 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
                 justifyContent: "flex-start", // Align content to the left
                 gap: "10px",
               }}
+              //onClick={googleSignIn} // Call googleSignIn function on click
             >
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"

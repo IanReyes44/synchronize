@@ -521,26 +521,41 @@ const CustomTuiCalendar = forwardRef(
               <div id="calendarList" className="lnb-calendars-d1">
                 {checkedCalendars.map((element, i) => {
                   return (
-                    <div key={i} className="lnb-calendars-item">
-                      <label>
-                        <input
-                          type="checkbox"
-                          className="tui-full-calendar-checkbox-round"
-                          defaultValue={element.id}
-                          checked={element.isChecked}
-                          onChange={handleCheckChildElement}
-                        />
-                        <span
+                    <React.Fragment key={i}>
+                      {element.id === "6" && (
+                        <div
                           style={{
-                            borderColor: element.bgColor,
-                            backgroundColor: element.isChecked
-                              ? element.bgColor
-                              : "transparent"
+                            borderTop: "1px solid #E5E5E5", // Updated line color
+                            width: "100%",
+                            margin: "10px 0",
+                            paddingTop: "10px",
+                            fontWeight: "bold",
                           }}
-                        />
-                        <span>{element.name}</span>
-                      </label>
-                    </div>
+                        >
+                          Connections
+                        </div>
+                      )}
+                      <div className="lnb-calendars-item">
+                        <label>
+                          <input
+                            type="checkbox"
+                            className="tui-full-calendar-checkbox-round"
+                            defaultValue={element.id}
+                            checked={element.isChecked}
+                            onChange={handleCheckChildElement}
+                          />
+                          <span
+                            style={{
+                              borderColor: element.bgColor,
+                              backgroundColor: element.isChecked
+                                ? element.bgColor
+                                : "transparent",
+                            }}
+                          />
+                          <span>{element.name}</span>
+                        </label>
+                      </div>
+                    </React.Fragment>
                   );
                 })}
               </div>

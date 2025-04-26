@@ -60,24 +60,6 @@ const CustomTuiCalendar = forwardRef(
         useDetailPopup: true,
         useCreationPopup: true,
         template: {
-          milestone: function (schedule) {
-            return (
-              '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' +
-              schedule.bgColor +
-              '">' +
-              schedule.title +
-              "</span>"
-            );
-          },
-          milestoneTitle: function () {
-            return '<span class="tui-full-calendar-left-content">MILESTONE</span>';
-          },
-          task: function (schedule) {
-            return "#" + schedule.title;
-          },
-          taskTitle: function () {
-            return '<span class="tui-full-calendar-left-content">TASK</span>';
-          },
           allday: function (schedule) {
             return _getTimeTemplate(schedule, true);
           },
@@ -158,14 +140,6 @@ const CustomTuiCalendar = forwardRef(
           dayGridTitle: function (viewName) {
             var title = "";
             switch (viewName) {
-              case "milestone":
-                title =
-                  '<span class="tui-full-calendar-left-content">MILESTONE</span>';
-                break;
-              case "task":
-                title =
-                  '<span class="tui-full-calendar-left-content">TASK</span>';
-                break;
               case "allday":
                 title =
                   '<span class="tui-full-calendar-left-content">ALL DAY</span>';

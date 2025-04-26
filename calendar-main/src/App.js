@@ -281,9 +281,9 @@ const colors = [
   {
     id: "8",
     color: "#000000",
-    bgColor: "#c2000a",
-    dragBgColor: "#c2000a",
-    borderColor: "#c2000a"
+    bgColor: "black",
+    dragBgColor: "black",
+    borderColor: "black"
   }
 
 ];

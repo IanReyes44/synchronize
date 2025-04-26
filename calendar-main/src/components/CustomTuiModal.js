@@ -26,21 +26,15 @@ export default function CustomTuiModal({
   const [title, setTitle] = useState("");
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
+  const [location, setLocation] = useState(""); // Add state for location
 
   const handleClick = (e) => {
     if (wrapperSelectCalendarsRef.current?.contains(e.target)) {
-      // inside click
-      // console.log("inside");
       return;
     }
     if (wrapperSelectAttendeesRef.current?.contains(e.target)) {
-      // inside click
-      // console.log("inside");
       return;
     }
-    // outside click
-    // ... do whatever on click outside here ...
-    // console.log("outside");
     setOpenSelectCalendars(false);
     setOpenSelectAttendees(false);
   };
@@ -57,13 +51,12 @@ export default function CustomTuiModal({
     if (schedule) {
       setCalendarId(schedule.calendarId);
       setAttendeeId(
-        attendees.find((element) => schedule.attendees.includes(element.name))
-          .id
+        attendees.find((element) => schedule.attendees.includes(element.name)).id
       );
       setTitle(schedule.title);
-      // console.log(schedule.start.toDate(), schedule.end.toDate())
       setStart(schedule.start.toDate());
       setEnd(schedule.end.toDate());
+      setLocation(schedule.location || ""); // Set the location to the saved location or an empty string
       dateRangePickerRef.current.setStartDate(schedule.start.toDate());
       dateRangePickerRef.current.setEndDate(schedule.end.toDate());
     }
@@ -80,6 +73,7 @@ export default function CustomTuiModal({
     setTitle("");
     setStart(new Date());
     setEnd(new Date());
+    setLocation(""); // Reset location
     dateRangePickerRef.current.setStartDate(new Date());
     dateRangePickerRef.current.setEndDate(new Date());
   }
@@ -95,7 +89,7 @@ export default function CustomTuiModal({
     >
       <div className="tui-full-calendar-popup-container">
         <div style={{ display: "flex" }}>
-          {/* Department */}
+          {/* Category */}
           <div
             ref={wrapperSelectCalendarsRef}
             className={`tui-full-calendar-popup-section tui-full-calendar-dropdown tui-full-calendar-close tui-full-calendar-section-calendar ${
@@ -153,7 +147,7 @@ export default function CustomTuiModal({
             </ul>
           </div>
           <span className="tui-full-calendar-section-date-dash">-</span>
-          {/* Staff */}
+          {/* User */}
           <div
             ref={wrapperSelectAttendeesRef}
             className={`tui-full-calendar-popup-section tui-full-calendar-dropdown tui-full-calendar-close tui-full-calendar-section-state ${
@@ -195,7 +189,7 @@ export default function CustomTuiModal({
             </ul>
           </div>
         </div>
-        {/* Subject */}
+        {/* Title */}
         <div className="tui-full-calendar-popup-section">
           <div className="tui-full-calendar-popup-section-item tui-full-calendar-section-location">
             <span className="tui-full-calendar-icon tui-full-calendar-ic-title" />
@@ -211,6 +205,24 @@ export default function CustomTuiModal({
             />
           </div>
         </div>
+
+        {/* Location */}
+        <div className="tui-full-calendar-popup-section">
+          <div className="tui-full-calendar-popup-section-item tui-full-calendar-section-location">
+            <span className="tui-full-calendar-icon tui-full-calendar-ic-location" />
+            <input
+              id="tui-full-calendar-schedule-location"
+              className="tui-full-calendar-content"
+              placeholder="Location"
+              value={location}
+              onChange={(e) => {
+                setLocation(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Date Range Picker */}
         <div className="tui-full-calendar-popup-section">
           <DateRangePicker
             ref={dateRangePickerRef}
@@ -223,7 +235,6 @@ export default function CustomTuiModal({
               inputType: "spinbox"
             }}
             onChange={(e) => {
-              // console.log(e[0], e[1])
               setStart(e[0]);
               setEnd(e[1]);
             }}
@@ -255,6 +266,7 @@ export default function CustomTuiModal({
                   title,
                   start,
                   end,
+                  location, // Include location in the event object
                   ...calendars.find((element) => element.id === calendarId)
                 };
                 onSubmit(event);

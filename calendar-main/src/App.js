@@ -25,7 +25,8 @@ const schedules = [
     attendees: ["Charlie", "Alex"],
     isVisible: true,
     start: new Date(2025, 3, 25, 10, 0), // April 25, 2025, 10:00 AM
-    end: new Date(2025, 3, 25, 11, 30)  // April 25, 2025, 11:30 AM
+    end: new Date(2025, 3, 25, 11, 30), // April 25, 2025, 11:30 AM
+    location: "Conference Room A"
   },
   {
     id: "3",
@@ -35,7 +36,8 @@ const schedules = [
     attendees: ["Charlie"],
     isVisible: true,
     start: new Date(2025, 3, 26, 14, 0), // April 26, 2025, 2:00 PM
-    end: new Date(2025, 3, 26, 15, 0)   // April 26, 2025, 3:00 PM
+    end: new Date(2025, 3, 26, 15, 0), // April 26, 2025, 3:00 PM
+    location: "City Clinic, Room 203"
   },
   {
     id: "4",
@@ -45,7 +47,8 @@ const schedules = [
     attendees: ["Charlie", "Ian"],
     isVisible: true,
     start: new Date(2025, 3, 27, 12, 0), // April 27, 2025, 12:00 PM
-    end: new Date(2025, 3, 27, 13, 30)   // April 27, 2025, 1:30 PM
+    end: new Date(2025, 3, 27, 13, 30), // April 27, 2025, 1:30 PM
+    location: "Downtown Bistro"
   },
   {
     id: "5",
@@ -54,8 +57,9 @@ const schedules = [
     category: "time",
     attendees: ["Charlie", "Alex"],
     isVisible: true,
-    start: new Date(2025, 3, 28, 9, 0),  // April 28, 2025, 9:00 AM
-    end: new Date(2025, 3, 28, 12, 0)   // April 28, 2025, 12:00 PM
+    start: new Date(2025, 3, 28, 9, 0), // April 28, 2025, 9:00 AM
+    end: new Date(2025, 3, 28, 12, 0), // April 28, 2025, 12:00 PM
+    location: "Tech Hub, Room 101"
   },
   {
     id: "6",
@@ -65,7 +69,8 @@ const schedules = [
     attendees: ["Charlie", "Ian"],
     isVisible: true,
     start: new Date(2025, 4, 1, 15, 0), // May 1, 2025, 3:00 PM
-    end: new Date(2025, 4, 1, 16, 30)  // May 1, 2025, 4:30 PM
+    end: new Date(2025, 4, 1, 16, 30), // May 1, 2025, 4:30 PM
+    location: "Client's Office, Boardroom"
   },
   {
     id: "7",
@@ -75,7 +80,8 @@ const schedules = [
     attendees: ["Charlie"],
     isVisible: true,
     start: new Date(2025, 4, 3, 18, 0), // May 3, 2025, 6:00 PM
-    end: new Date(2025, 4, 3, 19, 0)   // May 3, 2025, 7:00 PM
+    end: new Date(2025, 4, 3, 19, 0), // May 3, 2025, 7:00 PM
+    location: "Fitness Center"
   },
   {
     id: "8",
@@ -85,7 +91,8 @@ const schedules = [
     attendees: ["Charlie", "Ian", "Alex"],
     isVisible: true,
     start: new Date(2025, 4, 5, 19, 0), // May 5, 2025, 7:00 PM
-    end: new Date(2025, 4, 5, 22, 0)   // May 5, 2025, 10:00 PM
+    end: new Date(2025, 4, 5, 22, 0), // May 5, 2025, 10:00 PM
+    location: "Charlie's House"
   },
   {
     id: "9",
@@ -95,7 +102,8 @@ const schedules = [
     attendees: ["Charlie", "Ian"],
     isVisible: true,
     start: new Date(2025, 4, 7, 10, 0), // May 7, 2025, 10:00 AM
-    end: new Date(2025, 4, 7, 11, 0)   // May 7, 2025, 11:00 AM
+    end: new Date(2025, 4, 7, 11, 0), // May 7, 2025, 11:00 AM
+    location: "Office, Room 302"
   },
   {
     id: "10",
@@ -105,7 +113,8 @@ const schedules = [
     attendees: ["Charlie", "Alex"],
     isVisible: true,
     start: new Date(2025, 4, 10, 9, 0), // May 10, 2025, 9:00 AM
-    end: new Date(2025, 4, 10, 17, 0)  // May 10, 2025, 5:00 PM
+    end: new Date(2025, 4, 10, 17, 0), // May 10, 2025, 5:00 PM
+    location: "Convention Center, Hall B"
   },
   {
     id: "11",
@@ -115,7 +124,8 @@ const schedules = [
     attendees: ["Charlie", "Ian", "Alex"],
     isVisible: true,
     start: new Date(2025, 4, 12, 9, 0), // May 12, 2025, 9:00 AM
-    end: new Date(2025, 4, 13, 18, 0)  // May 13, 2025, 6:00 PM
+    end: new Date(2025, 4, 13, 18, 0), // May 13, 2025, 6:00 PM
+    location: "Tech Park, Building C"
   },
   {
     id: "12",
@@ -125,7 +135,8 @@ const schedules = [
     attendees: ["Charlie"],
     isVisible: true,
     start: new Date(2025, 4, 15, 8, 0), // May 15, 2025, 8:00 AM
-    end: new Date(2025, 4, 20, 20, 0)  // May 20, 2025, 8:00 PM
+    end: new Date(2025, 4, 20, 20, 0), // May 20, 2025, 8:00 PM
+    location: "Hawaii"
   },
   {
     id: "13",
@@ -135,7 +146,85 @@ const schedules = [
     attendees: ["Charlie", "Ian"],
     isVisible: true,
     start: new Date(2025, 4, 22, 9, 0), // May 22, 2025, 9:00 AM
-    end: new Date(2025, 4, 23, 17, 0)  // May 23, 2025, 5:00 PM
+    end: new Date(2025, 4, 23, 17, 0), // May 23, 2025, 5:00 PM
+    location: "Mountain Resort"
+  },
+  {
+    id: "14",
+    title: "Breakfast Meeting",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 3, 25, 8, 30), // April 25, 2025, 8:30 AM
+    end: new Date(2025, 3, 25, 9, 30), // April 25, 2025, 9:30 AM
+    location: "Cafe Downtown"
+  },
+  {
+    id: "15",
+    title: "Design Review",
+    calendarId: "2",
+    category: "time",
+    attendees: ["Charlie", "Ian"],
+    isVisible: true,
+    start: new Date(2025, 3, 25, 12, 0), // April 25, 2025, 12:00 PM
+    end: new Date(2025, 3, 25, 13, 0), // April 25, 2025, 1:00 PM
+    location: "Design Studio"
+  },
+  {
+    id: "16",
+    title: "Follow-up Doctor's Appointment",
+    calendarId: "4",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 4, 7, 15, 0), // April 27, 2025, 3:00 PM
+    end: new Date(2025, 4, 7, 15, 30), // April 27, 2025, 3:30 PM
+    location: "City Clinic, Room 204"
+  },
+  {
+    id: "17",
+    title: "Brainstorm Session",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 1, 10, 0), // May 1, 2025, 10:00 AM
+    end: new Date(2025, 4, 1, 11, 30), // May 1, 2025, 11:30 AM
+    location: "Office, Room 101"
+  },
+  {
+    id: "18",
+    title: "Evening Walk",
+    calendarId: "2",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 4, 1, 19, 0), // May 1, 2025, 7:00 PM
+    end: new Date(2025, 4, 1, 19, 45), // May 1, 2025, 7:45 PM
+    location: "Neighborhood Park"
+  },
+  {
+    id: "19",
+    title: "Friends' Reunion",
+    calendarId: "5",
+    category: "time",
+    attendees: ["Charlie", "Ian", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 5, 13, 0), // May 5, 2025, 1:00 PM
+    end: new Date(2025, 4, 5, 16, 0), // May 5, 2025, 4:00 PM
+    location: "Charlie's Backyard"
+  },
+  {
+    id: "20",
+    title: "Prep for Hackathon",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 11, 15, 0), // May 11, 2025, 3:00 PM
+    end: new Date(2025, 4, 11, 18, 0), // May 11, 2025, 6:00 PM
+    location: "Tech Hub, Room 202"
   }
 ];
 
@@ -177,24 +266,24 @@ const colors = [
   },
   {
     id: "6",
-    color: "#ffffff",
-    bgColor: "#343A40",
-    dragBgColor: "#343A40",
-    borderColor: "#343A40"
+    color: "#000000",
+    bgColor: "#57b0ff",
+    dragBgColor: "#57b0ff",
+    borderColor: "#57b0ff"
   },
   {
     id: "7",
     color: "#000000",
-    bgColor: "#343A40",
-    dragBgColor: "#343A40",
-    borderColor: "#343A40"
+    bgColor: "#140f85",
+    dragBgColor: "#140f85",
+    borderColor: "#140f85"
   },
   {
     id: "8",
     color: "#000000",
-    bgColor: "#343A40",
-    dragBgColor: "#343A40",
-    borderColor: "#343A40"
+    bgColor: "black",
+    dragBgColor: "black",
+    borderColor: "black"
   }
 
 ];
@@ -287,10 +376,9 @@ export default function App() {
         isVisible: true,
         start: newEvent.start,
         end: newEvent.end,
-
+        location: newEvent.location, // Include location
         isAllDay: event.isAllDay,
         dueDateClass: "",
-        location: event.location,
         state: event.state,
         body: event.body,
       };
@@ -331,11 +419,9 @@ export default function App() {
         isVisible: true,
         start: updateEvent.start,
         end: updateEvent.end,
-
+        location: updateEvent.location, // Include location
         isAllDay: event.isAllDay,
         dueDateClass: "",
-        location: event.location,
-
         state: event.state,
         body: event.body,
       };
@@ -387,6 +473,7 @@ export default function App() {
                 borderRadius: "5px",
                 cursor: "pointer",
                 fontWeight: "bold",
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
               }}
               onMouseEnter={(e) => (e.target.style.backgroundColor = "#4B4B8A")} // Darker color on hover
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#2C2C54")} // Reset color on mouse leave
@@ -403,6 +490,7 @@ export default function App() {
                 borderRadius: "5px",
                 cursor: "pointer",
                 fontWeight: "bold",
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
               }}
               onMouseEnter={(e) => (e.target.style.backgroundColor = "#a9a9a9")} // Darker color on hover
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#707070")} // Reset color on mouse leave
@@ -447,6 +535,7 @@ export default function App() {
                   schedule: event?.schedule,
                   startDate: event?.start,
                   endDate: event?.end,
+                  location: event?.schedule?.location || "", // Pass location to the modal
                 }}
               />
             </>

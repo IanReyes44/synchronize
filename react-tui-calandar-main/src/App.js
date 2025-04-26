@@ -21,7 +21,7 @@ const schedules = [
   {
     id: "1",
     title: "Midterm Exam",
-    calendarId: "1",
+    calendarId: "2",
     category: "time",
     attendees: ["Charlie", "Ian, Alex"],
     isVisible: true,
@@ -41,23 +41,23 @@ const colors = [
   {
     id: "2",
     color: "#ffffff",
-    bgColor: "#F4696A",
-    dragBgColor: "#F4696A",
-    borderColor: "#F4696A"
+    bgColor: "#3a70f0",
+    dragBgColor: "#3a70f0",
+    borderColor: "#3a70f0"
   },
   {
     id: "3",
     color: "#ffffff",
-    bgColor: "#00a9ff",
-    dragBgColor: "#00a9ff",
-    borderColor: "#00a9ff"
+    bgColor: "#F2B34C",
+    dragBgColor: "#F2B34C",
+    borderColor: "#F2B34C"
   },
   {
     id: "4",
     color: "#ffffff",
-    bgColor: "#F2B34C",
-    dragBgColor: "#F2B34C",
-    borderColor: "#F2B34C"
+    bgColor: "#F4696A",
+    dragBgColor: "#F4696A",
+    borderColor: "#F4696A"
   },
   {
     id: "5",
@@ -76,25 +76,53 @@ const colors = [
   {
     id: "7",
     color: "#000000",
-    bgColor: "#FFFFFF",
-    dragBgColor: "#FFFFFF",
-    borderColor: "#FFFFFF"
+    bgColor: "#343A40",
+    dragBgColor: "#343A40",
+    borderColor: "#343A40"
+  },
+  {
+    id: "8",
+    color: "#000000",
+    bgColor: "#343A40",
+    dragBgColor: "#343A40",
+    borderColor: "#343A40"
   }
+
 ];
 
 const calendars = [
   {
     id: "1",
-    name: "Events"
+    name: "Family"
   },
   {
     id: "2",
-    name: "Google"
+    name: "Personal"
   },
   {
     id: "3",
+    name: "School"
+  },
+  {
+    id: "4",
+    name: "Work"
+  },
+  {
+    id: "5",
+    name: "Other"
+  },
+  {
+    id: "6",
+    name: "Google"
+  },
+  {
+    id: "7",
     name: "Outlook"
   },
+  {
+    id: "8",
+    name: "iCloud"
+  }
 ];
 
 export default function App() {

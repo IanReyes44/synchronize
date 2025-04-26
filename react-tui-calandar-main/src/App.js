@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./styles.css";
 import CustomTuiCalendar from "./components/CustomTuiCalendar";
 import CustomTuiModal from "./components/CustomTuiModal";
+import LoginPage from "./components/LoginPage";
 
 const start = new Date();
 const end = new Date(new Date().setMinutes(start.getMinutes() + 60));
@@ -15,7 +16,7 @@ const attendees = [
   { id: "3", name: "Alex" },
 ];
 
-//example event
+// Example event
 const schedules = [
   {
     id: "1",
@@ -97,6 +98,7 @@ const calendars = [
 ];
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   const [modal, setModal] = useState(false);
   const [event, setEvent] = useState(null);
   const childRef = useRef();
@@ -106,15 +108,17 @@ export default function App() {
     setEvent(null);
   };
 
+  const handleLogin = () => {
+    setIsLoggedIn(true); // Set login status to true
+  };
+
   function onBeforeCreateSchedule(event) {
-    // console.log('onBeforeCreateSchedule', event)
     event.guide.clearGuideElement();
     setModal(true);
     setEvent(event);
   }
 
   function handleCreateSchedule(newEvent) {
-    // call api
     const result = true;
 
     if (result) {
@@ -142,13 +146,9 @@ export default function App() {
   }
 
   function onBeforeUpdateSchedule(event) {
-    // console.log('onBeforeUpdateSchedule', event)
-
     const { schedule, changes } = event;
 
-    // resize & drag n drop
     if (changes) {
-      // call api
       const result = true;
       if (result) {
         return childRef.current.updateSchedule(schedule, changes);
@@ -160,7 +160,6 @@ export default function App() {
   }
 
   async function handleUpdateSchedule(updateEvent) {
-    // call api
     const result = true;
 
     if (result) {
@@ -193,7 +192,6 @@ export default function App() {
   }
 
   function onBeforeDeleteSchedule(event) {
-
     const result = true;
 
     if (result) {
@@ -211,36 +209,42 @@ export default function App() {
 
   return (
     <div>
-      <CustomTuiCalendar
-        ref={childRef}
-        {...{
-          isReadOnly: false,
-          showSlidebar: true,
-          showMenu: true,
-          useCreationPopup: false,
-          calendars: formatCalendars,
-          schedules,
-          onBeforeCreateSchedule,
-          onBeforeUpdateSchedule,
-          onBeforeDeleteSchedule
-        }}
-      />
-      <CustomTuiModal
-        {...{
-          isOpen: modal,
-          toggle,
-          onSubmit:
-            event?.triggerEventName === "mouseup"
-              ? handleCreateSchedule
-              : handleUpdateSchedule,
-          submitText: event?.triggerEventName === "mouseup" ? "Save" : "Update",
-          calendars: formatCalendars,
-          attendees,
-          schedule: event?.schedule,
-          startDate: event?.start,
-          endDate: event?.end
-        }}
-      />
+      {isLoggedIn ? (
+        <>
+          <CustomTuiCalendar
+            ref={childRef}
+            {...{
+              isReadOnly: false,
+              showSlidebar: true,
+              showMenu: true,
+              useCreationPopup: false,
+              calendars: formatCalendars,
+              schedules,
+              onBeforeCreateSchedule,
+              onBeforeUpdateSchedule,
+              onBeforeDeleteSchedule
+            }}
+          />
+          <CustomTuiModal
+            {...{
+              isOpen: modal,
+              toggle,
+              onSubmit:
+                event?.triggerEventName === "mouseup"
+                  ? handleCreateSchedule
+                  : handleUpdateSchedule,
+              submitText: event?.triggerEventName === "mouseup" ? "Save" : "Update",
+              calendars: formatCalendars,
+              attendees,
+              schedule: event?.schedule,
+              startDate: event?.start,
+              endDate: event?.end
+            }}
+          />
+        </>
+      ) : (
+        <LoginPage onLogin={handleLogin} />
+      )}
     </div>
   );
 }

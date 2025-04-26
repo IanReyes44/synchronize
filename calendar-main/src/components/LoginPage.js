@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const LoginPage = ({ onLogin, attendees }) => {
   const [username, setUsername] = useState("");
+  const [isHovered, setIsHovered] = useState(false); // State to track hover
 
   const handleLogin = () => {
     const validAttendees = attendees.map((attendee) => attendee.name);
@@ -43,16 +44,35 @@ const LoginPage = ({ onLogin, attendees }) => {
         width: "350px",
         textAlign: "center"
       }}>
+        <h1 style={{ 
+          marginBottom: "30px", 
+          fontSize: "28px", 
+          fontWeight: "bold", 
+          color: "#2C2C54" 
+        }}>
+          Synchronize
+        </h1>
         <h2 style={{ 
           marginBottom: "30px", 
-          fontSize: "24px", 
+          fontSize: "19px", 
           fontWeight: "bold" 
         }}>
-          SIGN IN TO YOUR ACCOUNT
+          Sign in to your account
         </h2>
+        <label 
+          style={{ 
+            display: "block", 
+            textAlign: "left", 
+            fontWeight: "bold", 
+            fontSize: "14px", 
+            marginBottom: "10px" 
+          }}
+        >
+          Username:
+        </label>
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Enter your Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           style={{ 
@@ -66,10 +86,12 @@ const LoginPage = ({ onLogin, attendees }) => {
         />
         <button 
           onClick={handleLogin}
+          onMouseEnter={() => setIsHovered(true)} // Set hover state to true
+          onMouseLeave={() => setIsHovered(false)} // Set hover state to false
           style={{ 
             width: "100%", 
             padding: "12px", 
-            backgroundColor: "#2C2C54", 
+            backgroundColor: isHovered ? "#3B3B75" : "#2C2C54", // Change color on hover
             color: "white", 
             border: "none", 
             borderRadius: "6px", 

@@ -1,41 +1,29 @@
 import React, { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-
-//code commented out as it breaks the app
-//import { useSession } from "@supabase/auth-helpers-react"; // Importing useSession from Supabase Auth Helpers
-//const session = useSession(); // tokens, when session exists we have a user
-//const supabase = useSupabaseClient(); // talk to supabase!
-//const { isLoading } = useSessionContext();
-
-//  async function googleSignIn() {
-//   const { error } = await supabase.auth.signInWithOAuth({
-//     provider: "google",
-//     options: {
-//       scopes: "https://www.googleapis.com/auth/calendar",
-//     },
-//     redirectTo: "https://your-redirect-url.com", // Replace with your redirect URL
-//   });
-//   if (error) {
-//     alert("Error logging in to Google provider with Supabase");
-//     console.log(error);
-//   }
-// }
-//
-// async function signOut() {
-//   await supabase.auth.signOut();
-//   console.log("User signed out");
-//   // Optionally, you can redirect the user to a different page after signing out
-//   // window.location.href = "/login"; // Redirect to login page
-// }
-//line 120 is where the sign in button is located in the code below for google
-
-
-
+import { useSupabaseClient } from "@supabase/auth-helpers-react"; // Import Supabase client
 
 const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
+  const supabase = useSupabaseClient(); // Initialize Supabase client
   const [theme, setTheme] = useState("light");
   const [notifications, setNotifications] = useState(true);
   const [email, setEmail] = useState(""); // State for email address
+
+  const googleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          scopes: "https://www.googleapis.com/auth/calendar", // Request calendar access
+          redirectTo: "https://your-redirect-url.com", // Replace with your redirect URL
+        },
+      });
+      if (error) {
+        alert("Error logging in to Google provider with Supabase");
+        console.error(error);
+      }
+    } catch (err) {
+      console.error("Unexpected error during Google sign-in:", err);
+    }
+  };
 
   const handleSave = () => {
     const settings = {
@@ -128,7 +116,8 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
             Sync With Other Calendars:
           </label>
           <div style={{ marginTop: "10px" }}>
-            <button 
+            <button
+              onClick={googleSignIn} // Attach the googleSignIn function
               style={{
                 width: "100%",
                 padding: "12px",
@@ -145,7 +134,6 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
                 justifyContent: "flex-start", // Align content to the left
                 gap: "10px",
               }}
-              //onClick={googleSignIn} // Call googleSignIn function on click
             >
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
@@ -161,7 +149,7 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
                 Sign in with Google
               </span>
             </button>
-            <button 
+            <button
               style={{
                 width: "100%",
                 padding: "12px",

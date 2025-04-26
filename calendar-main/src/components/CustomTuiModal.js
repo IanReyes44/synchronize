@@ -203,7 +203,7 @@ export default function CustomTuiModal({
               ref={subjectRef}
               id="tui-full-calendar-schedule-title"
               className="tui-full-calendar-content"
-              placeholder="Subject"
+              placeholder="Title"
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, attendees }) => {
   const [username, setUsername] = useState("");
 
   const handleLogin = () => {
-    if (username.trim()) {
+    const validAttendees = attendees.map((attendee) => attendee.name);
+    if (username.trim() && validAttendees.includes(username.trim())) {
       onLogin(); // Notify parent to switch page
     } else {
-      alert("Please enter a username.");
+      alert("Please enter a valid username.");
     }
   };
 

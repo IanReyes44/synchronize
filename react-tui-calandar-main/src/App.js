@@ -247,6 +247,10 @@ export default function App() {
     setIsLoggedIn(true); // Set login status to true
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Reset login status
+  };
+
   function onBeforeCreateSchedule(event) {
     event.guide.clearGuideElement();
     setModal(true);
@@ -346,6 +350,24 @@ export default function App() {
     <div>
       {isLoggedIn ? (
         <>
+          {/* Logout Button */}
+          <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 1000 }}>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#f44336",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontWeight: "bold"
+              }}
+            >
+              Logout
+            </button>
+          </div>
+
           <CustomTuiCalendar
             ref={childRef}
             {...{

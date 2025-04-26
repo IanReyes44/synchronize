@@ -8,26 +8,133 @@ import LoginPage from "./components/LoginPage";
 const start = new Date();
 const end = new Date(new Date().setMinutes(start.getMinutes() + 60));
 const attendees = [
-  {
-    id: "1",
-    name: "Charlie"
-  },
+  { id: "1", name: "Charlie"},
   { id: "2", name: "Ian" },
   { id: "3", name: "Alex" },
 ];
 
-// Example event
+// Example events
 const schedules = [
   {
-    id: "1",
-    title: "Midterm Exam",
+    id: "2",
+    title: "Project Meeting",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 3, 25, 10, 0), // April 25, 2025, 10:00 AM
+    end: new Date(2025, 3, 25, 11, 30)  // April 25, 2025, 11:30 AM
+  },
+  {
+    id: "3",
+    title: "Doctor's Appointment",
+    calendarId: "4",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 3, 26, 14, 0), // April 26, 2025, 2:00 PM
+    end: new Date(2025, 3, 26, 15, 0)   // April 26, 2025, 3:00 PM
+  },
+  {
+    id: "4",
+    title: "Team Lunch",
     calendarId: "2",
     category: "time",
-    attendees: ["Charlie", "Ian, Alex"],
+    attendees: ["Charlie", "Ian"],
     isVisible: true,
-    start,
-    end
+    start: new Date(2025, 3, 27, 12, 0), // April 27, 2025, 12:00 PM
+    end: new Date(2025, 3, 27, 13, 30)   // April 27, 2025, 1:30 PM
   },
+  {
+    id: "5",
+    title: "Workshop",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 3, 28, 9, 0),  // April 28, 2025, 9:00 AM
+    end: new Date(2025, 3, 28, 12, 0)   // April 28, 2025, 12:00 PM
+  },
+  {
+    id: "6",
+    title: "Client Presentation",
+    calendarId: "4",
+    category: "time",
+    attendees: ["Charlie", "Ian"],
+    isVisible: true,
+    start: new Date(2025, 4, 1, 15, 0), // May 1, 2025, 3:00 PM
+    end: new Date(2025, 4, 1, 16, 30)  // May 1, 2025, 4:30 PM
+  },
+  {
+    id: "7",
+    title: "Gym Session",
+    calendarId: "2",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 4, 3, 18, 0), // May 3, 2025, 6:00 PM
+    end: new Date(2025, 4, 3, 19, 0)   // May 3, 2025, 7:00 PM
+  },
+  {
+    id: "8",
+    title: "Birthday Party",
+    calendarId: "5",
+    category: "time",
+    attendees: ["Charlie", "Ian", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 5, 19, 0), // May 5, 2025, 7:00 PM
+    end: new Date(2025, 4, 5, 22, 0)   // May 5, 2025, 10:00 PM
+  },
+  {
+    id: "9",
+    title: "Weekly Review",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Ian"],
+    isVisible: true,
+    start: new Date(2025, 4, 7, 10, 0), // May 7, 2025, 10:00 AM
+    end: new Date(2025, 4, 7, 11, 0)   // May 7, 2025, 11:00 AM
+  },
+  {
+    id: "10",
+    title: "Conference",
+    calendarId: "4",
+    category: "time",
+    attendees: ["Charlie", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 10, 9, 0), // May 10, 2025, 9:00 AM
+    end: new Date(2025, 4, 10, 17, 0)  // May 10, 2025, 5:00 PM
+  },
+  {
+    id: "11",
+    title: "Hackathon",
+    calendarId: "3",
+    category: "time",
+    attendees: ["Charlie", "Ian", "Alex"],
+    isVisible: true,
+    start: new Date(2025, 4, 12, 9, 0), // May 12, 2025, 9:00 AM
+    end: new Date(2025, 4, 13, 18, 0)  // May 13, 2025, 6:00 PM
+  },
+  {
+    id: "12",
+    title: "Vacation",
+    calendarId: "2",
+    category: "time",
+    attendees: ["Charlie"],
+    isVisible: true,
+    start: new Date(2025, 4, 15, 8, 0), // May 15, 2025, 8:00 AM
+    end: new Date(2025, 4, 20, 20, 0)  // May 20, 2025, 8:00 PM
+  },
+  {
+    id: "13",
+    title: "Team Offsite",
+    calendarId: "4",
+    category: "time",
+    attendees: ["Charlie", "Ian"],
+    isVisible: true,
+    start: new Date(2025, 4, 22, 9, 0), // May 22, 2025, 9:00 AM
+    end: new Date(2025, 4, 23, 17, 0)  // May 23, 2025, 5:00 PM
+  }
 ];
 
 const colors = [
@@ -271,7 +378,7 @@ export default function App() {
           />
         </>
       ) : (
-        <LoginPage onLogin={handleLogin} />
+        <LoginPage onLogin={handleLogin} attendees={attendees} />
       )}
     </div>
   );

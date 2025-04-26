@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState("");
@@ -10,6 +10,19 @@ const LoginPage = ({ onLogin }) => {
       alert("Please enter a username.");
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        handleLogin();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [username]);
 
   return (
     <div style={{ 

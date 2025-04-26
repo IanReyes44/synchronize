@@ -266,24 +266,24 @@ const colors = [
   },
   {
     id: "6",
-    color: "#ffffff",
-    bgColor: "#343A40",
-    dragBgColor: "#343A40",
-    borderColor: "#343A40"
+    color: "#000000",
+    bgColor: "#57b0ff",
+    dragBgColor: "#57b0ff",
+    borderColor: "#57b0ff"
   },
   {
     id: "7",
     color: "#000000",
-    bgColor: "#343A40",
-    dragBgColor: "#343A40",
-    borderColor: "#343A40"
+    bgColor: "#140f85",
+    dragBgColor: "#140f85",
+    borderColor: "#140f85"
   },
   {
     id: "8",
     color: "#000000",
-    bgColor: "#343A40",
-    dragBgColor: "#343A40",
-    borderColor: "#343A40"
+    bgColor: "#c2000a",
+    dragBgColor: "#c2000a",
+    borderColor: "#c2000a"
   }
 
 ];

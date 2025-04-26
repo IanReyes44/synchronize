@@ -90,6 +90,126 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
           />
         </div>
 
+        {/* Connections Section */}
+        <div style={{ marginBottom: "20px", textAlign: "left" }}>
+          <label style={{ fontWeight: "bold", fontSize: "14px" }}>
+            Sync With Other Calendars:
+          </label>
+          <div style={{ marginTop: "10px" }}>
+            <button
+              style={{
+                width: "100%",
+                padding: "12px",
+                backgroundColor: "white", // Google Red
+                color: "black",
+                border: "1px solid #4285F4", // Google Blue Border
+                borderRadius: "6px",
+                fontWeight: "bold",
+                fontSize: "14px",
+                cursor: "pointer",
+                marginBottom: "10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start", // Align content to the left
+                gap: "10px",
+              }}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                alt="Google Logo"
+                style={{ width: "20px", height: "20px" }}
+              />
+              <span
+                style={{
+                  flex: 1, // Take up remaining space
+                  textAlign: "center", // Center the text
+                }}
+              >
+                Sign in with Google
+              </span>
+            </button>
+            <button
+              style={{
+                width: "100%",
+                padding: "12px",
+                backgroundColor: "#0078D4", // Outlook Blue
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                fontWeight: "bold",
+                fontSize: "14px",
+                cursor: "pointer",
+                marginBottom: "10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start", // Align content to the left
+                gap: "10px",
+              }}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+                alt="Outlook Logo"
+                style={{ width: "20px", height: "20px" }}
+              />
+              <span
+                style={{
+                  flex: 1, // Take up remaining space
+                  textAlign: "center", // Center the text
+                }}
+              >
+                Sign in with Outlook
+              </span>
+            </button>
+            <button
+              style={{
+                width: "100%",
+                padding: "12px",
+                backgroundColor: "black", // iCloud Black Background
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                fontWeight: "bold",
+                fontSize: "14px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start", // Align content to the left
+                gap: "10px",
+              }}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg"
+                alt="iCloud Logo"
+                style={{ width: "20px", height: "20px" }}
+              />
+              <span
+                style={{
+                  flex: 1, // Take up remaining space
+                  textAlign: "center", // Center the text
+                }}
+              >
+                Sign in with iCloud
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Notifications Toggle */}
+        <div style={{ marginBottom: "20px", textAlign: "left" }}>
+          <label style={{ fontWeight: "bold", fontSize: "14px" }}>
+            Notifications:
+          </label>
+          <div style={{ marginTop: "10px" }}>
+            <input
+              type="checkbox"
+              checked={notifications}
+              onChange={(e) => setNotifications(e.target.checked)}
+              style={{ marginRight: "10px" }}
+            />
+            Enable Notifications
+          </div>
+        </div>
+
         {/* Theme Selection */}
         <div style={{ marginBottom: "20px", textAlign: "left" }}>
           <label style={{ fontWeight: "bold", fontSize: "14px" }}>
@@ -110,22 +230,6 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
             <option value="light">Light</option>
             <option value="dark">Dark</option>
           </select>
-        </div>
-
-        {/* Notifications Toggle */}
-        <div style={{ marginBottom: "20px", textAlign: "left" }}>
-          <label style={{ fontWeight: "bold", fontSize: "14px" }}>
-            Notifications:
-          </label>
-          <div style={{ marginTop: "10px" }}>
-            <input
-              type="checkbox"
-              checked={notifications}
-              onChange={(e) => setNotifications(e.target.checked)}
-              style={{ marginRight: "10px" }}
-            />
-            Enable Notifications
-          </div>
         </div>
 
         {/* Buttons */}

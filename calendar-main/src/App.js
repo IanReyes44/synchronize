@@ -4,6 +4,8 @@ import "./styles.css";
 import CustomTuiCalendar from "./components/CustomTuiCalendar";
 import CustomTuiModal from "./components/CustomTuiModal";
 import LoginPage from "./components/LoginPage";
+import SettingsPage from "./components/SettingsPage";
+
 
 const start = new Date();
 const end = new Date(new Date().setMinutes(start.getMinutes() + 60));
@@ -236,6 +238,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   const [modal, setModal] = useState(false);
   const [event, setEvent] = useState(null);
+  const [showSettings, setShowSettings] = useState(false); // State to toggle settings page
+  const [settings, setSettings] = useState({ theme: "light", notifications: true }); // State for settings
   const childRef = useRef();
 
   const toggle = () => {
@@ -249,6 +253,15 @@ export default function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false); // Reset login status
+  };
+
+  const handleSaveSettings = (newSettings) => {
+    setSettings(newSettings); // Save new settings
+    setShowSettings(false); // Close settings page
+  };
+
+  const handleCancelSettings = () => {
+    setShowSettings(false); // Close settings page without saving
   };
 
   function onBeforeCreateSchedule(event) {
@@ -276,7 +289,7 @@ export default function App() {
         dueDateClass: "",
         location: event.location,
         state: event.state,
-        body: event.body
+        body: event.body,
       };
 
       childRef.current.createSchedule(newSchedule);
@@ -321,7 +334,7 @@ export default function App() {
         location: event.location,
 
         state: event.state,
-        body: event.body
+        body: event.body,
       };
 
       await childRef.current.createSchedule(newSchedule);
@@ -343,15 +356,40 @@ export default function App() {
 
   const formatCalendars = calendars.map((element) => ({
     ...colors.find((element2) => element2.id === element.id),
-    ...element
+    ...element,
   }));
 
   return (
     <div>
       {isLoggedIn ? (
         <>
-          {/* Logout Button */}
-          <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 1000 }}>
+          {/* Settings and Logout Buttons */}
+          <div
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              zIndex: 1000,
+              display: "flex",
+              gap: "10px", // Add spacing between buttons
+            }}
+          >
+            <button
+              onClick={() => setShowSettings(true)} // Open settings page
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#2C2C54",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#4B4B8A")} // Darker color on hover
+              onMouseLeave={(e) => (e.target.style.backgroundColor = "#2C2C54")} // Reset color on mouse leave
+            >
+              SETTINGS
+            </button>
             <button
               onClick={handleLogout}
               style={{
@@ -370,36 +408,45 @@ export default function App() {
             </button>
           </div>
 
-          <CustomTuiCalendar
-            ref={childRef}
-            {...{
-              isReadOnly: false,
-              showSlidebar: true,
-              showMenu: true,
-              useCreationPopup: false,
-              calendars: formatCalendars,
-              schedules,
-              onBeforeCreateSchedule,
-              onBeforeUpdateSchedule,
-              onBeforeDeleteSchedule
-            }}
-          />
-          <CustomTuiModal
-            {...{
-              isOpen: modal,
-              toggle,
-              onSubmit:
-                event?.triggerEventName === "mouseup"
-                  ? handleCreateSchedule
-                  : handleUpdateSchedule,
-              submitText: event?.triggerEventName === "mouseup" ? "Save" : "Update",
-              calendars: formatCalendars,
-              attendees,
-              schedule: event?.schedule,
-              startDate: event?.start,
-              endDate: event?.end
-            }}
-          />
+          {showSettings ? (
+            <SettingsPage
+              onSaveSettings={handleSaveSettings}
+              onCancel={handleCancelSettings}
+            />
+          ) : (
+            <>
+              <CustomTuiCalendar
+                ref={childRef}
+                {...{
+                  isReadOnly: false,
+                  showSlidebar: true,
+                  showMenu: true,
+                  useCreationPopup: false,
+                  calendars: formatCalendars,
+                  schedules,
+                  onBeforeCreateSchedule,
+                  onBeforeUpdateSchedule,
+                  onBeforeDeleteSchedule,
+                }}
+              />
+              <CustomTuiModal
+                {...{
+                  isOpen: modal,
+                  toggle,
+                  onSubmit:
+                    event?.triggerEventName === "mouseup"
+                      ? handleCreateSchedule
+                      : handleUpdateSchedule,
+                  submitText: event?.triggerEventName === "mouseup" ? "Save" : "Update",
+                  calendars: formatCalendars,
+                  attendees,
+                  schedule: event?.schedule,
+                  startDate: event?.start,
+                  endDate: event?.end,
+                }}
+              />
+            </>
+          )}
         </>
       ) : (
         <LoginPage onLogin={handleLogin} attendees={attendees} />

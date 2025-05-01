@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; // Import Router, Routes, and Route
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles.css";
 import CustomTuiCalendar from "./components/CustomTuiCalendar";
@@ -337,14 +338,23 @@ export default function App() {
     setEvent(null);
   };
 
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("username");
+    if (savedUsername) {
+      setIsLoggedIn(true);
+      setCurrentUser(savedUsername);
+    }
+  }, []);
+
   const handleLogin = (username) => {
     setIsLoggedIn(true);
-    setCurrentUser(username); // Set the logged-in user's name
+    setCurrentUser(username);
   };
-  
+
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setCurrentUser(""); // Clear the current user
+    setCurrentUser(null);
+    localStorage.removeItem("username"); // Clear username from localStorage
   };
 
   const handleSaveSettings = (newSettings) => {
@@ -449,101 +459,128 @@ export default function App() {
   }));
 
   return (
-    <div>
-      {isLoggedIn ? (
-        <>
-          {/* Settings and Logout Buttons */}
-          <div
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              zIndex: 1000,
-              display: "flex",
-              gap: "10px", // Add spacing between buttons
-            }}
-          >
-            <button
-              onClick={() => setShowSettings(true)} // Open settings page
-              style={{
-                padding: "10px 20px",
-                backgroundColor: "#2C2C54",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
-              }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#4B4B8A")} // Darker color on hover
-              onMouseLeave={(e) => (e.target.style.backgroundColor = "#2C2C54")} // Reset color on mouse leave
-            >
-              SETTINGS
-            </button>
-            <button
-              onClick={handleLogout}
-              style={{
-                padding: "10px 20px",
-                backgroundColor: "#707070",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
-              }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#a9a9a9")} // Darker color on hover
-              onMouseLeave={(e) => (e.target.style.backgroundColor = "#707070")} // Reset color on mouse leave
-            >
-              LOGOUT
-            </button>
-          </div>
+    <Router>
+      <Routes>
+        {/* Login Route */}
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/calendar" replace />
+            ) : (
+              <LoginPage onLogin={handleLogin} attendees={attendees} />
+            )
+          }
+        />
 
-          {showSettings ? (
-            <SettingsPage
-              onSaveSettings={handleSaveSettings}
-              onCancel={handleCancelSettings}
-              currentUser={currentUser}
-            />
-          ) : (
-            <>
-              <CustomTuiCalendar
-                ref={childRef}
-                {...{
-                  isReadOnly: false,
-                  showSlidebar: true,
-                  showMenu: true,
-                  useCreationPopup: false,
-                  calendars: formatCalendars,
-                  schedules,
-                  onBeforeCreateSchedule,
-                  onBeforeUpdateSchedule,
-                  onBeforeDeleteSchedule,
-                }}
-              />
-              <CustomTuiModal
-                {...{
-                  isOpen: modal,
-                  toggle,
-                  onSubmit:
-                    event?.triggerEventName === "mouseup"
-                      ? handleCreateSchedule
-                      : handleUpdateSchedule,
-                  submitText: event?.triggerEventName === "mouseup" ? "Save" : "Update",
-                  calendars: formatCalendars,
-                  attendees,
-                  schedule: event?.schedule,
-                  startDate: event?.start,
-                  endDate: event?.end,
-                  location: event?.schedule?.location || "", // Pass location to the modal
-                }}
-              />
-            </>
-          )}
-        </>
-      ) : (
-        <LoginPage onLogin={handleLogin} attendees={attendees} />
-      )}
-    </div>
+        {/* Calendar Route */}
+        <Route
+          path="/calendar"
+          element={
+            isLoggedIn ? (
+              <>
+                {/* Settings and Logout Buttons */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    zIndex: 1000,
+                    display: "flex",
+                    gap: "10px", // Add spacing between buttons
+                  }}
+                >
+                  <button
+                    onClick={() => setShowSettings(true)} // Open settings page
+                    style={{
+                      padding: "10px 20px",
+                      backgroundColor: "#2C2C54",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.backgroundColor = "#4B4B8A")
+                    } // Darker color on hover
+                    onMouseLeave={(e) =>
+                      (e.target.style.backgroundColor = "#2C2C54")
+                    } // Reset color on mouse leave
+                  >
+                    SETTINGS
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      padding: "10px 20px",
+                      backgroundColor: "#707070",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', // Updated font family
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.backgroundColor = "#a9a9a9")
+                    } // Darker color on hover
+                    onMouseLeave={(e) =>
+                      (e.target.style.backgroundColor = "#707070")
+                    } // Reset color on mouse leave
+                  >
+                    LOGOUT
+                  </button>
+                </div>
+
+                {showSettings ? (
+                  <SettingsPage
+                    onSaveSettings={handleSaveSettings}
+                    onCancel={handleCancelSettings}
+                    currentUser={currentUser}
+                  />
+                ) : (
+                  <>
+                    <CustomTuiCalendar
+                      ref={childRef}
+                      {...{
+                        isReadOnly: false,
+                        showSlidebar: true,
+                        showMenu: true,
+                        useCreationPopup: false,
+                        calendars: formatCalendars,
+                        schedules,
+                      }}
+                    />
+                    <CustomTuiModal
+                      {...{
+                        isOpen: modal,
+                        toggle,
+                        onSubmit: (event?.triggerEventName === "mouseup"
+                          ? handleCreateSchedule
+                          : handleUpdateSchedule),
+                        submitText:
+                          event?.triggerEventName === "mouseup"
+                            ? "Save"
+                            : "Update",
+                        calendars: formatCalendars,
+                        attendees,
+                        schedule: event?.schedule,
+                        startDate: event?.start,
+                        endDate: event?.end,
+                        location: event?.schedule?.location || "", // Pass location to the modal
+                      }}
+                    />
+                  </>
+                )}
+              </>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }

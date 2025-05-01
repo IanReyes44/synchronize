@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const LoginPage = ({ onLogin, attendees }) => {
   const [username, setUsername] = useState("");
-  const [isHovered, setIsHovered] = useState(false); // State to track hover
+  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleLogin = () => {
     const validAttendees = attendees.map((attendee) => attendee.name);
     if (username.trim() && validAttendees.includes(username.trim())) {
-      onLogin(username.trim()); // Pass the username to App.js
+      onLogin(username.trim());
+      localStorage.setItem("username", username.trim()); // Save username to localStorage
+      navigate("/calendar"); // Navigate to the calendar page
     } else {
       alert("Please enter a valid username.");
     }
@@ -86,12 +90,12 @@ const LoginPage = ({ onLogin, attendees }) => {
         />
         <button 
           onClick={handleLogin}
-          onMouseEnter={() => setIsHovered(true)} // Set hover state to true
-          onMouseLeave={() => setIsHovered(false)} // Set hover state to false
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           style={{ 
             width: "100%", 
             padding: "12px", 
-            backgroundColor: isHovered ? "#3B3B75" : "#2C2C54", // Change color on hover
+            backgroundColor: isHovered ? "#3B3B75" : "#2C2C54",
             color: "white", 
             border: "none", 
             borderRadius: "6px", 

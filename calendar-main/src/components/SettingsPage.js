@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react"; // Import Supabase client
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
   const supabase = useSupabaseClient(); // Initialize Supabase client
@@ -13,12 +14,14 @@ const SettingsPage = ({ onSaveSettings, onCancel, currentUser }) => {
         provider: "google",
         options: {
           scopes: "https://www.googleapis.com/auth/calendar", // Request calendar access
-          redirectTo: "https://your-redirect-url.com", // Replace with your redirect URL
+          redirectTo: "http://localhost:3000", // Replace with your redirect URL
         },
       });
       if (error) {
         alert("Error logging in to Google provider with Supabase");
         console.error(error);
+      } else {
+        navigate("/calendar"); // Navigate to /calendar on success
       }
     } catch (err) {
       console.error("Unexpected error during Google sign-in:", err);

@@ -223,7 +223,7 @@ export default function CustomTuiModal({
             date={new Date()}
             start={start}
             end={end}
-            format="yyyy/MM/dd HH:mm"
+            format="yyyy/MM/dd hh:mm A"
             timePicker={{
               layoutType: "tab",
               inputType: "spinbox"

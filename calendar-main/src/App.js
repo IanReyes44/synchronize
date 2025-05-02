@@ -366,10 +366,25 @@ export default function App() {
     setShowSettings(false); // Close settings page without saving
   };
 
-  function onBeforeCreateSchedule(event) {
-    event.guide.clearGuideElement();
+  function onBeforeUpdateSchedule(event) {
+    console.log("onBeforeUpdateSchedule triggered:", event); // Debugging log
+    const { schedule, changes } = event;
+
+    if (changes) {
+      const result = true;
+      if (result) {
+        return childRef.current.updateSchedule(schedule, changes);
+      }
+    }
+
     setModal(true);
-    setEvent(event);
+    setEvent({
+      triggerEventName: "update",
+      schedule,
+      start: schedule.start,
+      end: schedule.end,
+      location: schedule.location,
+    });
   }
 
   function handleCreateSchedule(newEvent) {
@@ -396,20 +411,6 @@ export default function App() {
       childRef.current.createSchedule(newSchedule);
       setModal(false);
     }
-  }
-
-  function onBeforeUpdateSchedule(event) {
-    const { schedule, changes } = event;
-
-    if (changes) {
-      const result = true;
-      if (result) {
-        return childRef.current.updateSchedule(schedule, changes);
-      }
-    }
-
-    setModal(true);
-    setEvent(event);
   }
 
   async function handleUpdateSchedule(updateEvent) {
@@ -451,6 +452,17 @@ export default function App() {
     }
 
     return true;
+  }
+
+  function onBeforeCreateSchedule(event) {
+    console.log("onBeforeCreateSchedule triggered:", event); // Debugging log
+    setModal(true);
+    setEvent({
+      triggerEventName: "mouseup",
+      start: event.start,
+      end: event.end,
+      isAllDay: event.isAllDay,
+    });
   }
 
   const formatCalendars = calendars.map((element) => ({
@@ -551,19 +563,20 @@ export default function App() {
                         useCreationPopup: false,
                         calendars: formatCalendars,
                         schedules,
+                        onBeforeCreateSchedule,
+                        onBeforeUpdateSchedule,
+                        onBeforeDeleteSchedule,
                       }}
                     />
                     <CustomTuiModal
                       {...{
                         isOpen: modal,
                         toggle,
-                        onSubmit: (event?.triggerEventName === "mouseup"
-                          ? handleCreateSchedule
-                          : handleUpdateSchedule),
-                        submitText:
+                        onSubmit:
                           event?.triggerEventName === "mouseup"
-                            ? "Save"
-                            : "Update",
+                            ? handleCreateSchedule
+                            : handleUpdateSchedule,
+                        submitText: event?.triggerEventName === "mouseup" ? "Save" : "Update",
                         calendars: formatCalendars,
                         attendees,
                         schedule: event?.schedule,

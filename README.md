@@ -10,6 +10,8 @@ to sync calender data from existing third party platforms such as Google and
 Microsoft and add them into the display page, i.e. work schedule on miscrosoft 
 teams will display on the Synchronize calender view.
 
+Currently the Application has 3 test accounts for login: "Ian", "Alex", and "Charlie"
+
 ## How to Run Calendar
 
 Navigate to main calendar directory:

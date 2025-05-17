@@ -6,7 +6,6 @@ import React, {
   forwardRef,
   useImperativeHandle
 } from "react";
-import { Route } from "react-router-dom"; // Import Route for routing
 import TuiCalendar from "tui-calendar";
 import moment from "moment";
 
@@ -57,241 +56,35 @@ const CustomTuiCalendar = forwardRef(
     }));
 
     useEffect(() => {
-      calendarInstRef.current = new TuiCalendar(tuiRef.current, {
-        useDetailPopup: true,
-        useCreationPopup: true,
-        template: {
-          allday: function (schedule) {
-            return _getTimeTemplate(schedule, true);
-          },
-          alldayTitle: function () {
-            return '<span class="tui-full-calendar-left-content">ALL DAY</span>';
-          },
-          time: function (schedule) {
-            return _getTimeTemplate(schedule, false);
-          },
-          goingDuration: function (schedule) {
-            return (
-              '<span class="calendar-icon ic-travel-time"></span>' +
-              schedule.goingDuration +
-              "min."
-            );
-          },
-          comingDuration: function (schedule) {
-            return (
-              '<span class="calendar-icon ic-travel-time"></span>' +
-              schedule.comingDuration +
-              "min."
-            );
-          },
-          monthMoreTitleDate: function (date, dayname) {
-            var day = date.split(".")[2];
+      if (!calendarInstRef.current) {
+        // Initialize the calendar instance only once
+        calendarInstRef.current = new TuiCalendar(tuiRef.current, {
+          useDetailPopup: true,
+          useCreationPopup: true,
+          calendars,
+          ...rest,
+        });
 
-            return (
-              '<span class="tui-full-calendar-month-more-title-day">' +
-              day +
-              '</span> <span class="tui-full-calendar-month-more-title-day-label">' +
-              dayname +
-              "</span>"
-            );
-          },
-          monthMoreClose: function () {
-            return '<span class="tui-full-calendar-icon tui-full-calendar-ic-close"></span>';
-          },
-          monthGridHeader: function (dayModel) {
-            var date = parseInt(dayModel.date.split("-")[2], 10);
-            var classNames = ["tui-full-calendar-weekday-grid-date "];
+        // Set up event listeners
+        calendarInstRef.current.on("beforeCreateSchedule", (event) => {
+          onBeforeCreateSchedule(event);
+        });
+        calendarInstRef.current.on("beforeUpdateSchedule", (event) => {
+          onBeforeUpdateSchedule(event);
+        });
+        calendarInstRef.current.on("beforeDeleteSchedule", (event) => {
+          onBeforeDeleteSchedule(event);
+        });
+      }
 
-            if (dayModel.isToday) {
-              classNames.push("tui-full-calendar-weekday-grid-date-decorator");
-            }
+      // Log the schedules being passed
+      console.log("Schedules passed to CustomTuiCalendar:", schedules);
 
-            return (
-              '<span class="' + classNames.join(" ") + '">' + date + "</span>"
-            );
-          },
-          monthGridHeaderExceed: function (hiddenSchedules) {
-            return (
-              '<span class="weekday-grid-more-schedules">+' +
-              hiddenSchedules +
-              "</span>"
-            );
-          },
-          monthGridFooter: function () {
-            return "";
-          },
-          monthGridFooterExceed: function (hiddenSchedules) {
-            return "";
-          },
-          monthDayname: function (model) {
-            return model.label.toString().toLocaleUpperCase();
-          },
-          weekDayname: function (model) {
-            return (
-              '<span class="tui-full-calendar-dayname-date">' +
-              model.date +
-              '</span>&nbsp;&nbsp;<span class="tui-full-calendar-dayname-name">' +
-              model.dayName +
-              "</span>"
-            );
-          },
-          weekGridFooterExceed: function (hiddenSchedules) {
-            return "+" + hiddenSchedules;
-          },
-          dayGridTitle: function (viewName) {
-            var title = "";
-            switch (viewName) {
-              case "allday":
-                title =
-                  '<span class="tui-full-calendar-left-content">ALL DAY</span>';
-                break;
-              default:
-                break;
-            }
-
-            return title;
-          },
-          collapseBtnTitle: function () {
-            return '<span class="tui-full-calendar-icon tui-full-calendar-ic-arrow-solid-top"></span>';
-          },
-          timegridDisplayPrimaryTime: function (time) {
-            var meridiem = "AM";
-            var hour = time.hour;
-
-            if (time.hour >= 12) {
-              meridiem = "PM";
-              if (time.hour > 12) {
-                hour = time.hour - 12;
-              }
-            }
-
-            return hour + " " + meridiem;
-          },
-          timegridCurrentTime: function (timezone) {
-            var templates = [];
-
-            if (timezone.dateDifference) {
-              templates.push(
-                "[" +
-                  timezone.dateDifferenceSign +
-                  timezone.dateDifference +
-                  "]<br>"
-              );
-            }
-
-            templates.push(moment(timezone.hourmarker).format("hh:mm A"));
-
-            return templates.join("");
-          },
-          popupIsAllDay: function () {
-            return "All Day";
-          },
-          popupStateFree: function () {
-            return "Free";
-          },
-          popupStateBusy: function () {
-            return "Busy";
-          },
-          titlePlaceholder: function () {
-            return "Subject";
-          },
-          locationPlaceholder: function () {
-            return "Location";
-          },
-          startDatePlaceholder: function () {
-            return "Start date";
-          },
-          endDatePlaceholder: function () {
-            return "End date";
-          },
-          popupSave: function () {
-            return "Save";
-          },
-          popupUpdate: function () {
-            return "Update";
-          },
-          popupDetailDate: function (isAllDay, start, end) {
-            var isSameDate = moment(start).isSame(end);
-            var endFormat = (isSameDate ? "" : "MM/DD/YYYY ") + "hh:mm A";
-
-            if (isAllDay) {
-              return (
-                moment(start).format("MM/DD/YYYY") +
-                (isSameDate ? "" : " - " + moment(end).format("MM/DD/YYYY"))
-              );
-            }
-
-            return (
-              moment(start.toDate()).format("MM/DD/YYYY hh:mm A") +
-              " - " +
-              moment(end.toDate()).format(endFormat)
-            );
-          },
-          popupDetailLocation: function (schedule) {
-            return "Location : " + schedule.location;
-          },
-          popupDetailState: function (schedule) {
-            return "State : " + schedule.state || "Busy";
-          },
-          popupDetailRepeat: function (schedule) {
-            return "Repeat : " + schedule.recurrenceRule;
-          },
-          popupDetailBody: function (schedule) {
-            return "Body : " + schedule.body;
-          },
-          popupEdit: function () {
-            return "Edit";
-          },
-          popupDelete: function () {
-            return "Delete";
-          }
-        },
-        calendars,
-        ...rest
-      });
-      setRenderRangeText();
-      // render schedules
+      // Update schedules without reinitializing the calendar
       calendarInstRef.current.clear();
-      calendarInstRef.current.createSchedules(filterSchedules, true);
+      calendarInstRef.current.createSchedules(schedules, true);
       calendarInstRef.current.render();
-
-      calendarInstRef.current.on("beforeCreateSchedule", function (event) {
-        onBeforeCreateSchedule(event);
-      });
-      calendarInstRef.current.on("beforeUpdateSchedule", function (event) {
-        onBeforeUpdateSchedule(event);
-      });
-      calendarInstRef.current.on("beforeDeleteSchedule", function (event) {
-        onBeforeDeleteSchedule(event);
-      });
-      calendarInstRef.current.on("clickSchedule", function (event) {
-        // open detail view
-      });
-      calendarInstRef.current.on("clickDayname", function (event) {
-        if (calendarInstRef.current.getViewName() === "week") {
-          calendarInstRef.current.setDate(new Date(event.date));
-          calendarInstRef.current.changeView("day", true);
-        }
-      });
-
-      calendarInstRef.current.on("clickMore", function (event) {
-        // handle click more
-      });
-
-      calendarInstRef.current.on("clickTimezonesCollapseBtn", function (
-        timezonesCollapsed
-      ) {
-        // handle timezones collapse
-      });
-
-      calendarInstRef.current.on("afterRenderSchedule", function (event) {
-        // handle after render schedule
-      });
-
-      return () => {
-        calendarInstRef.current.destroy();
-      };
-    }, [tuiRef, schedules]);
+    }, [schedules]); // Only update when schedules change
 
     useLayoutEffect(() => {
       // before render

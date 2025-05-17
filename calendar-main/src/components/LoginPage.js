@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const LoginPage = ({ onLogin, attendees }) => {
   const [username, setUsername] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleLogin = () => {
     const validAttendees = attendees.map((attendee) => attendee.name);
     if (username.trim() && validAttendees.includes(username.trim())) {
-      onLogin(username.trim());
-      localStorage.setItem("username", username.trim()); // Save username to localStorage
-      navigate("/calendar"); // Navigate to the calendar page
+      onLogin(); // Notify parent to switch page
     } else {
       alert("Please enter a valid username.");
     }
@@ -48,35 +43,16 @@ const LoginPage = ({ onLogin, attendees }) => {
         width: "350px",
         textAlign: "center"
       }}>
-        <h1 style={{ 
-          marginBottom: "30px", 
-          fontSize: "28px", 
-          fontWeight: "bold", 
-          color: "#2C2C54" 
-        }}>
-          Synchronize
-        </h1>
         <h2 style={{ 
           marginBottom: "30px", 
-          fontSize: "19px", 
+          fontSize: "24px", 
           fontWeight: "bold" 
         }}>
-          Sign in to your account
+          SIGN IN TO YOUR ACCOUNT
         </h2>
-        <label 
-          style={{ 
-            display: "block", 
-            textAlign: "left", 
-            fontWeight: "bold", 
-            fontSize: "14px", 
-            marginBottom: "10px" 
-          }}
-        >
-          Username:
-        </label>
         <input
           type="text"
-          placeholder="Enter your Username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           style={{ 
@@ -90,12 +66,10 @@ const LoginPage = ({ onLogin, attendees }) => {
         />
         <button 
           onClick={handleLogin}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           style={{ 
             width: "100%", 
             padding: "12px", 
-            backgroundColor: isHovered ? "#3B3B75" : "#2C2C54",
+            backgroundColor: "#2C2C54", 
             color: "white", 
             border: "none", 
             borderRadius: "6px", 

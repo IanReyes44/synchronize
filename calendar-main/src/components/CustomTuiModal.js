@@ -26,22 +26,46 @@ export default function CustomTuiModal({
   const [title, setTitle] = useState("");
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
-  const [location, setLocation] = useState(""); // Add state for location
-  const [newAttendees, setNewAttendees] = useState([]); // State for new attendees
+
+  const handleClick = (e) => {
+    if (wrapperSelectCalendarsRef.current?.contains(e.target)) {
+      // inside click
+      // console.log("inside");
+      return;
+    }
+    if (wrapperSelectAttendeesRef.current?.contains(e.target)) {
+      // inside click
+      // console.log("inside");
+      return;
+    }
+    // outside click
+    // ... do whatever on click outside here ...
+    // console.log("outside");
+    setOpenSelectCalendars(false);
+    setOpenSelectAttendees(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick, false);
+
+    return () => {
+      document.removeEventListener("click", handleClick, false);
+    };
+  });
 
   useLayoutEffect(() => {
     if (schedule) {
       setCalendarId(schedule.calendarId);
       setAttendeeId(
-        attendees.find((element) => schedule.attendees.includes(element.name)).id
+        attendees.find((element) => schedule.attendees.includes(element.name))
+          .id
       );
       setTitle(schedule.title);
+      // console.log(schedule.start.toDate(), schedule.end.toDate())
       setStart(schedule.start.toDate());
       setEnd(schedule.end.toDate());
-      setLocation(schedule.location || ""); // Set the location to the saved location or an empty string
       dateRangePickerRef.current.setStartDate(schedule.start.toDate());
       dateRangePickerRef.current.setEndDate(schedule.end.toDate());
-      setNewAttendees(schedule.attendees.slice(1) || []); // Exclude the first attendee (main event creator)
     }
     if (startDate && endDate) {
       dateRangePickerRef.current.setStartDate(startDate.toDate());
@@ -56,20 +80,8 @@ export default function CustomTuiModal({
     setTitle("");
     setStart(new Date());
     setEnd(new Date());
-    setLocation(""); // Reset location
     dateRangePickerRef.current.setStartDate(new Date());
     dateRangePickerRef.current.setEndDate(new Date());
-    setNewAttendees([]); // Reset new attendees
-  }
-
-  function handleAddAttendee(newAttendee) {
-    if (!newAttendees.includes(newAttendee)) {
-      setNewAttendees((prev) => [...prev, newAttendee]);
-    }
-  }
-
-  function handleRemoveAttendee(attendeeToRemove) {
-    setNewAttendees((prev) => prev.filter((attendee) => attendee !== attendeeToRemove));
   }
 
   return (
@@ -83,7 +95,7 @@ export default function CustomTuiModal({
     >
       <div className="tui-full-calendar-popup-container">
         <div style={{ display: "flex" }}>
-          {/* Category */}
+          {/* Department */}
           <div
             ref={wrapperSelectCalendarsRef}
             className={`tui-full-calendar-popup-section tui-full-calendar-dropdown tui-full-calendar-close tui-full-calendar-section-calendar ${
@@ -141,7 +153,7 @@ export default function CustomTuiModal({
             </ul>
           </div>
           <span className="tui-full-calendar-section-date-dash">-</span>
-          {/* User */}
+          {/* Staff */}
           <div
             ref={wrapperSelectAttendeesRef}
             className={`tui-full-calendar-popup-section tui-full-calendar-dropdown tui-full-calendar-close tui-full-calendar-section-state ${
@@ -183,7 +195,7 @@ export default function CustomTuiModal({
             </ul>
           </div>
         </div>
-        {/* Title */}
+        {/* Subject */}
         <div className="tui-full-calendar-popup-section">
           <div className="tui-full-calendar-popup-section-item tui-full-calendar-section-location">
             <span className="tui-full-calendar-icon tui-full-calendar-ic-title" />
@@ -191,7 +203,7 @@ export default function CustomTuiModal({
               ref={subjectRef}
               id="tui-full-calendar-schedule-title"
               className="tui-full-calendar-content"
-              placeholder="Title"
+              placeholder="Subject"
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -199,120 +211,35 @@ export default function CustomTuiModal({
             />
           </div>
         </div>
-
-        {/* Location */}
-        <div className="tui-full-calendar-popup-section">
-          <div className="tui-full-calendar-popup-section-item tui-full-calendar-section-location">
-            <span className="tui-full-calendar-icon tui-full-calendar-ic-location" />
-            <input
-              id="tui-full-calendar-schedule-location"
-              className="tui-full-calendar-content"
-              placeholder="Location"
-              value={location}
-              onChange={(e) => {
-                setLocation(e.target.value);
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Date Range Picker */}
         <div className="tui-full-calendar-popup-section">
           <DateRangePicker
             ref={dateRangePickerRef}
             date={new Date()}
             start={start}
             end={end}
-            format="yyyy/MM/dd hh:mm A"
+            format="yyyy/MM/dd HH:mm"
             timePicker={{
               layoutType: "tab",
               inputType: "spinbox"
             }}
             onChange={(e) => {
+              // console.log(e[0], e[1])
               setStart(e[0]);
               setEnd(e[1]);
             }}
+            // language="ko"
           />
         </div>
 
-        {/* Attendee Input Section */}
-        <div className="add-attendees-section">
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <input
-              type="text"
-              placeholder="Name"
-              style={{
-                border: "1px solid #d5d5d5",
-                borderRadius: "2px 0 0 4px",
-                padding: "5px 10px",
-                outline: "none",
-                flex: "1",
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && e.target.value.trim()) {
-                  handleAddAttendee(e.target.value.trim());
-                  e.target.value = ""; // Clear input
-                }
-              }}
-            />
-            <button
-              onClick={() => {
-                const input = document.querySelector(".add-attendees-section input");
-                if (input && input.value.trim()) {
-                  handleAddAttendee(input.value.trim());
-                  input.value = ""; // Clear input
-                }
-              }}
-              style={{
-                border: "1px solid #d5d5d5",
-                borderRadius: "0 4px 4px 0",
-                padding: "5px 10px",
-                backgroundColor: "white",
-                color: "black",
-                cursor: "pointer",
-              }}
-            >
-              Add
-            </button>
-          </div>
-          <div
-            className="attendees-list"
-            style={{ display: "flex", marginTop: "10px", flexWrap: "wrap" }}
-          >
-            {newAttendees.map((attendee, index) => (
-              <div
-                key={index}
-                className="attendee-bubble"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  backgroundColor: "#f0f0f0",
-                  borderRadius: "15px",
-                  padding: "5px 10px",
-                  fontSize: "12px",
-                  marginRight: "5px",
-                  marginBottom: "5px",
-                }}
-              >
-                {attendee}
-                <button
-                  className="remove-attendee"
-                  onClick={() => handleRemoveAttendee(attendee)}
-                  style={{
-                    marginLeft: "5px",
-                    background: "none",
-                    border: "none",
-                    color: "grey",
-                    cursor: "pointer",
-                  }}
-                >
-                  X
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
+        <button
+          onClick={() => {
+            toggle();
+            // reset()
+          }}
+          className="tui-full-calendar-button tui-full-calendar-popup-close"
+        >
+          <span className="tui-full-calendar-icon tui-full-calendar-ic-close" />
+        </button>
         <div className="tui-full-calendar-section-button-save">
           <button
             onClick={() => {
@@ -322,16 +249,12 @@ export default function CustomTuiModal({
                 const event = {
                   calendarId,
                   attendeeId,
-                  attendees: [
-                    ...attendees
-                      .filter((element) => element.id === attendeeId)
-                      .map(({ name }) => name),
-                    ...newAttendees // Include new attendees
-                  ],
+                  attendees: attendees
+                    .filter((element) => element.id === attendeeId)
+                    .map(({ name, ...rest }) => name),
                   title,
                   start,
                   end,
-                  location,
                   ...calendars.find((element) => element.id === calendarId)
                 };
                 onSubmit(event);
